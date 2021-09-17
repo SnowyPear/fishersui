@@ -1,0 +1,31 @@
+{% load static %}
+<! DOCTYPE=html>
+<html>
+<head>
+    <title> Fishers Coats </title>
+    <link rel="stylesheet" href="{% static 'css/default.css' %}">
+</head>
+<body>
+    <div class="header">
+        <div class="title"> <img class="shadow" src="{% static 'img/fishers-logo.svg' %}" width="300" alt="{{ page_title }}"/> </div>
+        <div class="search">
+            <input type="text" class="search-box" />
+            <button type="button" class="search-button">search</button>
+        </div>
+    </div>
+    <div class="card-wrapper">
+        {% for o in owner %}
+        {% if o.coat|length > 0 %}
+        <div class="card">
+            <div class="coat-wrapper">
+                {% for c in o.coat %}
+                <div class="circle-{{ c.status }}"></div>
+                {% endfor %}
+            </div>
+            <div class="owner-name"> {{ o.name }} </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</body>
+</html>
