@@ -9,7 +9,9 @@ class Coat:
 		self.status = ''
 		self.history = ''
 	
-	def getstatus(self):
+	
+
+	def getstatus(self,offset = 14):
 		r = len(self.received)
 		d = len(self.dispatched)
 		if r > 0 and d > 0:
@@ -17,7 +19,7 @@ class Coat:
 			b = self.dispatched[-1]
 			delta = a - b
 			if delta.days < 0:
-				if self.dispatched[-1] < dayoffset(10):
+				if self.dispatched[-1] < dayoffset(offset):
 					return 'missing'
 				else:
 					return 'out'
@@ -25,6 +27,11 @@ class Coat:
 				return 'in'
 		elif r > 0:
 			return 'in'
+		elif d > 0:
+			if self.dispatched[-1] < dayoffset(offset):
+				return 'missing'
+			else:
+				return 'out'
 		else:
 			return 'unknown'
 		

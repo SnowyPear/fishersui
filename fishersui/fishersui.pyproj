@@ -34,8 +34,6 @@
   <ItemGroup>
     <Compile Include="mainui\admin.py" />
     <Compile Include="mainui\apps.py" />
-    <Compile Include="mainui\data\interface.py" />
-    <Compile Include="mainui\data\__init__.py" />
     <Compile Include="mainui\interface.py" />
     <Compile Include="mainui\migrations\__init__.py" />
     <Compile Include="mainui\models.py" />
@@ -52,7 +50,6 @@
   <ItemGroup>
     <Folder Include="fishersui\" />
     <Folder Include="mainui\" />
-    <Folder Include="mainui\data\" />
     <Folder Include="mainui\migrations\" />
     <Folder Include="mainui\migrations\__pycache__\" />
     <Folder Include="mainui\static\" />
@@ -65,10 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="mainui\coats.csv" />
-    <Content Include="mainui\data\coats.csv" />
-    <Content Include="mainui\data\dispatched.csv" />
-    <Content Include="mainui\data\employees.csv" />
-    <Content Include="mainui\data\received.csv" />
     <Content Include="mainui\dispatched.csv" />
     <Content Include="mainui\employees.csv" />
     <Content Include="mainui\migrations\__pycache__\__init__.cpython-39.pyc" />
@@ -76,7 +69,8 @@
     <Content Include="mainui\static\css\default.css" />
     <Content Include="mainui\static\img\fishers-logo.svg" />
     <Content Include="mainui\templates\owners\owners.html" />
-    <Content Include="mainui\templates\reports\missing.html" />
+    <Content Include="mainui\templates\reports\status.html" />
+    <Content Include="mainui\templates\404.html" />
     <Content Include="mainui\__pycache__\admin.cpython-39.pyc" />
     <Content Include="mainui\__pycache__\apps.cpython-39.pyc" />
     <Content Include="mainui\__pycache__\interface.cpython-39.pyc" />

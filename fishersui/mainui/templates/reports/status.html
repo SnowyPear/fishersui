@@ -18,18 +18,20 @@
         <div class="card">
             <div class="coat-indicators">
                 {% for c in o.coat %}
-                <div class="circle circle-{{ c.status }}"></div>
+                    <div class="circle circle-{{ c.status }}"></div>
                 {% endfor %}
             </div>
             <div class="owner-name" onclick="expand('{{o.id}}')"> {{ o.name }} </div>
-            <div style="display:none;" class="coat-wrapper" id="{{o.id}}">
+            <div style="display:block;" class="coat-wrapper" id="{{o.id}}">
             {% for c in o.coat %}
-                <div class="coat-item" onclick="expand('{{c.id}}')">
-                    <div class="coat-id">{{ c.id }}</div>
-                    <div style="display:none;" class="coat-history" id="{{c.id}}">
-                         {{ c.history|safe }}
+                {% if c.status == status %}
+                    <div class="coat-item" onclick="expand('{{c.id}}')">
+                        <div class="coat-id">{{ c.id }}</div>
+                        <div style="display:none;" class="coat-history" id="{{c.id}}">
+                             {{ c.history|safe }}
+                        </div>
                     </div>
-                </div>
+                {% endif %}
             {% endfor %}
             </div>
         </div>
