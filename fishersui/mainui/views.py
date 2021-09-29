@@ -2,21 +2,37 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from . import interface
 
+
+historylen = 60
 # Create your views here.
 
 def index(request):
-    owner = interface.buildtree()
+    owner = interface.buildtree(historylen)
+    
+    remove = [c for o in owner for c in o.coat if len(c.received) == 0 and len(c.dispatched) == 0]
+
+    for r in remove:
+        [o.coat.remove(c) for o in owner for c in o.coat if c.id == r.id]
+
+    result = [o for o in owner if len(o.coat) > 0]
 
     context = {
         "page_title": "Fishers Laundry", 
-  	    "owner": owner,
+  	    "owner": result,
         "color" : "#359C37" 
     }
     return render(request, 'owners/owners.html', context)
 
-def missingreport(request,status="missing"):
-    owner = interface.buildtree()
-    result = [o for o in owner for c in o.coat if c.status==status]
+def reports(request,status="missing",historylen=40):
+    if status == 'unknown':
+        historylen = 9999
+
+    owner = interface.buildtree(int(historylen))
+
+    for o in owner:
+        o.coat = [c for c in o.coat if c.status == status]
+
+    result = [o for o in owner if len(o.coat) > 0]
 
     context = {
         "page_title": "Fishers Laundry", 
