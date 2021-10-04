@@ -22,6 +22,7 @@
     <DjangoSettingsModule>fishersui.settings</DjangoSettingsModule>
     <OutputPath>.</OutputPath>
     <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
+    <PythonDebugWebServerCommandArguments>runserver --insecure --noreload --settings $(DjangoSettingsModule) %SERVER_PORT% $(CommandLineArguments)</PythonDebugWebServerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -56,6 +57,7 @@
     <Folder Include="mainui\static\css\" />
     <Folder Include="mainui\static\img\" />
     <Folder Include="mainui\templates\" />
+    <Folder Include="mainui\templates\deliveries\" />
     <Folder Include="mainui\templates\owners\" />
     <Folder Include="mainui\templates\reports\" />
     <Folder Include="mainui\__pycache__\" />
@@ -64,10 +66,12 @@
     <Content Include="mainui\coats.csv" />
     <Content Include="mainui\dispatched.csv" />
     <Content Include="mainui\employees.csv" />
+    <Content Include="mainui\favicon.ico" />
     <Content Include="mainui\migrations\__pycache__\__init__.cpython-39.pyc" />
     <Content Include="mainui\received.csv" />
     <Content Include="mainui\static\css\default.css" />
     <Content Include="mainui\static\img\fishers-logo.svg" />
+    <Content Include="mainui\templates\deliveries\deliveries.html" />
     <Content Include="mainui\templates\owners\owners.html" />
     <Content Include="mainui\templates\reports\status.html" />
     <Content Include="mainui\templates\404.html" />

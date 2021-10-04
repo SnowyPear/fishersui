@@ -28,23 +28,34 @@
         </div>
     </div>
     <div class="card-wrapper">
-        {% for o in owner %}
+        {% for d in deliveries %}
         <div class="card" id="{{o.name}}">
-            <div class="coat-indicators">
-                {% for c in o.coat %}
-                <div class="circle circle-{{ c.status }}" onclick="expand('{{c.id}}',0);expand('{{o.id}}',0)"></div>
-                {% endfor %}
+            <div class="owner-name" onclick="expand('{{d.0.0}}',0)"> 
+                Week {{ d.0.0 }} - {{d.0.5}} 
             </div>
-            <div class="owner-name" onclick="expand('{{o.id}}',0)"> {{ o.name }} </div>
-            <div class="coat-wrapper" id="{{o.id}}">
-            {% for c in o.coat %}
-                <div class="coat-item" onclick="expand('{{c.id}}',0);expand('{{o.id}}',1)">
-                    <div class="coat-id coat-id-{{ c.status }}">{{ c.id }}</div>
-                    <div class="coat-history" id="{{c.id}}">
-                         {{ c.history|safe }}
-                    </div>
-                </div>
-            {% endfor %}
+            <div class="coat-wrapper" id="{{d.0.0}}">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Coat</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    {% for i in d %}
+                        <tr>
+                            <td class="coat-id coat-id-{{i.2}}">
+                                {{ i.1 }}
+                            </td>
+                            <td>
+                                {{ i.3 }}
+                            </td>
+                            <td>
+                                {{ i.4 }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
             </div>
         </div>
         {% endfor %}

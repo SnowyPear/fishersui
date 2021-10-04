@@ -1,65 +1,44 @@
 import csv
 import datetime 
 
+class Transaction:
+	def __init__(self,date,type):
+		self.date = date
+		self.type = type
+		self.week = date.strftime('%V')
+
+	def __lt__(self,other):
+		return self.date < other.date
+
+
 class Coat:
 	def __init__(self,id):
 		self.id = id
-		self.received = [] 
-		self.dispatched = []
+		self.transaction = []
 		self.status = ''
 		self.history = ''
-	
-	
-	def getstatus(self,offset = 14):
-		r = len(self.received)
-		d = len(self.dispatched)
-		if r > 0 and d > 0:
-			a = self.received[-1]
-			b = self.dispatched[-1]
-			delta = a - b
-			if delta.days < 0:
-				if self.dispatched[-1] < dayoffset(offset):
-					return 'missing'
-				else:
-					return 'out'
-			else:
+
+	def getstatus(self,offset=14):
+		try:
+			if self.transaction[-1].type == 1:
 				return 'in'
-		elif r > 0:
-			return 'in'
-		elif d > 0:
-			if self.dispatched[-1] < dayoffset(offset):
+			elif self.transaction[-1].type == 0 and self.transaction[-1].date < dayoffset(offset):
 				return 'missing'
 			else:
 				return 'out'
-		else:
+		except:
 			return 'unknown'
 		
 	def gethistory(self):
-		r = 0
-		lenr = len(self.received)
-		d = 0
-		lend = len(self.dispatched)
-		tl = lenr + lend
-		if tl == 0:
+		if len(self.transaction) == 0:
 			s = ''
 		else:
-			s = '<table><tr><th>Received</th><th>Dispatched</th></tr>\n'
-			for i in range(tl):
-					isreceived = 0
-					if r < lenr and d < lend:
-						delta = self.received[r] - self.dispatched[d]
-						if delta.days <= 0:
-							isreceived = 1
-						else:
-							isreceived = 0
-					elif r < lenr:
-						isreceived = 1
-					if isreceived:
-						s += '<tr><td>' + str(self.received[r]) + '</td><td></td></tr>\n'
-						r += 1
-					else:
-						s += '<tr><td/><td>' + str(self.dispatched[d]) + '</td></tr>\n'
-						d += 1
+			s = '<table><thead><tr><th>Received</th><th>Dispatched</th><th>Week</th></tr></thead>\n'
+			for t in self.transaction:
+				if t.type == 1:
+					s += '<tr><td>' + str(t.date) + '</td><td></td><td>'+str(t.week)+'</td></tr>\n'
+				else:
+					s += '<tr><td/><td>' + str(t.date) + '</td><td>'+str(t.week)+'</td></tr>\n'
 			s += '</table>'
 		return s
 
@@ -119,7 +98,7 @@ def buildtree(historylen):
 				c = [c for o in owner for c in o.coat if c.id == row[0]]
 				if len(c) == 0:
 					owner[0].coat.append(Coat(row[0]))
-				[c.received.append(a) for o in owner for c in o.coat if c.id == row[0]]
+				[c.transaction.append(Transaction(a,1)) for o in owner for c in o.coat if c.id == row[0]]
 
 	with open('mainui/dispatched.csv', 'r' ) as file:
 		reader = csv.reader(file)
@@ -129,14 +108,12 @@ def buildtree(historylen):
 				c = [c for o in owner for c in o.coat if c.id == row[0]]
 				if len(c) == 0:
 					owner[0].coat.append(Coat(row[0]))
-				[c.dispatched.append(a) for o in owner for c in o.coat if c.id == row[0]]
+				[c.transaction.append(Transaction(a,0)) for o in owner for c in o.coat if c.id == row[0]]
 
 	#cleanup
 	for o in owner:
 		for c in o.coat:
-			c.received = sorted(c.received)
-			c.dispatched = sorted(c.dispatched)
+			c.transaction = sorted(c.transaction)
 			c.status = c.getstatus()
 			c.history = c.gethistory()
-
 	return owner
