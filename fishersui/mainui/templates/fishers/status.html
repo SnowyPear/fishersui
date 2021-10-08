@@ -1,0 +1,26 @@
+{% extends "fishers/base.html" %}
+
+{% block content %}
+        {% for o in owner %}
+        <div class="card">
+            <div class="coat-indicators">
+                {% for c in o.coat %}
+                <div class="circle circle-{{ c.status }}" onclick="expand('{{c.id}}',0);expand('{{o.id}}',0)"></div>
+                {% endfor %}
+            </div>
+            <div class="owner-name" onclick="expand('{{o.id}}')"> {{ o.name }} </div>
+            <div class="coat-wrapper" id="{{o.id}}">
+            {% for c in o.coat %}
+                {% if c.status == status %}
+                    <div class="coat-item" onclick="expand('{{c.id}}',0);expand('{{o.id}}',1)">
+                        <div class="coat-id coat-id-{{ c.status }}">{{ c.id }}</div>
+                        <div class="coat-history" id="{{c.id}}">
+                             {{ c.history|safe }}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+{% endblock %}

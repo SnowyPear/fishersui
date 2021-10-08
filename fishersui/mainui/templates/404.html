@@ -1,11 +1,14 @@
-<!DOCTYPE html>
+{% extends "fishers/base.html" %}
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
-    404 Message
-</body>
-</html>
+{% block title %}404 Page :){% endblock %}
+
+{% block content %}
+        <div class="card">
+            <div class="owner-name"> 404 </div>
+            <div class="coat-wrapper">
+                <div class="coat-item">
+                    <div class="coat-id">Page Not Found</div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

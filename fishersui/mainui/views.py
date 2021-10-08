@@ -4,7 +4,7 @@ from . import interface
 import datetime
 
 
-historylen = 60
+historylen = 600
 # Create your views here.
 
 def index(request):
@@ -18,11 +18,11 @@ def index(request):
     result = [o for o in owner if len(o.coat) > 0]
 
     context = {
-        'page_title': 'Fishers Laundry', 
+        'page_title': 'Fishers Coats', 
   	    'owner': result,
         'color' : '#359C37' 
     }
-    return render(request, 'owners/owners.html', context)
+    return render(request, 'fishers/owners.html', context)
 
 def reports(request,status='missing',historylen=historylen):
     if status == 'unknown':
@@ -41,7 +41,7 @@ def reports(request,status='missing',historylen=historylen):
         'status': status,
         'color' : '#359C37' 
     }
-    return render(request, 'reports/status.html', context)
+    return render(request, 'fishers/status.html', context)
 
 def search(request,term=''):
     owner = interface.buildtree(historylen)
@@ -58,20 +58,32 @@ def search(request,term=''):
   	    'owner': result,
         'color' : '#359C37' 
     }
-    return render(request, 'owners/owners.html', context)
+    return render(request, 'fishers/owners.html', context)
 
 def deliveries(request,week=''):
     owner = interface.buildtree(historylen)
     deliveries = []
-    week = datetime.date.today()
-    week = int(week.strftime('%V'))
 
-    for r in range(10):
+    thisweek = datetime.date.today()
+    thisweek = int(thisweek.strftime('%V'))
+
+    if week == 'last':
+        listmax = 1
+    else:
+        try:
+            if int(week) > 0:
+                listmax = 1
+                thisweek = int(week)
+        except:
+            listmax = 20
+
+
+    for r in range(listmax):
         d = []
         for o in owner:
             for c in o.coat:
                 for t in c.transaction:
-                    if int(t.week) == week-r:
+                    if int(t.week) == thisweek-r:
                         if t.type:
                             type = 'received'
                         else:
@@ -89,4 +101,4 @@ def deliveries(request,week=''):
         'deliveries': deliveries,
         'color' : '#359C37' 
     }
-    return render(request, 'deliveries/deliveries.html', context)
+    return render(request, 'fishers/deliveries.html', context)

@@ -15,14 +15,14 @@ table {
 }
 
 tr:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 table, tr, td, th {
     padding: 3px;
     color: #dddddd;
     border-collapse: collapse;
-    text-align: center;
+    text-align: left;
 }
 
 .title {
@@ -119,7 +119,7 @@ table, tr, td, th {
 
 .coat-wrapper {
     height: inherit;
-    max-height: 0;
+    max-height: 1000px;
     overflow:hidden;
     transition: max-height 0.2s ease-out;
 }
@@ -170,7 +170,7 @@ table, tr, td, th {
 }
 
 .coat-history {
-    max-height: 0;
+    max-height: 1000px;
     overflow: hidden;
 }
 
