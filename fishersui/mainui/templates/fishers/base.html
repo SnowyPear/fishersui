@@ -21,6 +21,10 @@
     <div class="sidebar">
         {% block sidebar %}
         <div class="sidebar-group">
+            <div class="sidebar-title">Search</div>
+            <input type="text" id="search">
+        </div>
+        <div class="sidebar-group">
             <div class="sidebar-title">Status Reports</div>
             <a class="toplink shadow" href="/reports/missing">Missing Coats</a>
             <a class="toplink shadow" href="/reports/out">Currently Out</a>
@@ -34,12 +38,8 @@
         </div>
         <div class="sidebar-group">
             <div class="sidebar-title">View</div>
-            <a class="toplink shadow" href="#" onclick="compact()">Compact</a>
-            <a class="toplink shadow" href="#" onclick="extended()">Extended</a>
-        </div>
-        <div class="sidebar-group">
-            <div class="sidebar-title">Debug</div>
-            <a class="toplink shadow" href="/deliries/last">404</a>
+            <a class="toplink shadow" onclick="compact()">Compact</a>
+            <a class="toplink shadow" onclick="extended()">Extended</a>
         </div>
         {% endblock sidebar %}
     </div>
@@ -63,25 +63,41 @@
     <script type="application/javascript">
 
         function compact() {
-            var content = getElementsByClassName(document, "coat-wrapper");
-            var n = content.length();
+            var content = document.getElementsByClassName("coat-history");
+            var n = content.length;
             for (var i = 0; i < n; i++){
-                content[i].style.maxHeight = "0px";
+                content[i].style.transitionDuration = "0.4s"
+                content[i].style.maxHeight = null;
             }           
         }
 
-        function expand(i,b) {
+        function extended() {
+            var content = document.getElementsByClassName("coat-history");
+            var n = content.length;
+            for (var i = 0; i < n; i++){
+                content[i].style.transitionDuration = "0.4s"
+                content[i].style.maxHeight = content[i].scrollHeight + "px";
+            }           
+        }
+
+        function expand(i) {
             content = document.getElementById(i);
-            if (b) {
-                content.style.maxHeight = content.scrollHeight + "px";
+            if (content.style.maxHeight){
+                content.style.transitionDuration = "0.4s"
+                content.style.maxHeight = null;
             } else {
-                if (content.style.maxHeight){
-                  content.style.maxHeight = null;
-                } else {
-                  content.style.maxHeight = content.scrollHeight + "px";
-                }
+                content.style.transitionDuration = "0.4s"
+                content.style.maxHeight = content.scrollHeight + "px";
             }
         }
+        a = document.getElementById("search")
+        a.addEventListener("keydown", ({ key }) => {
+            if (key === "Enter") {
+                s = "/s/";
+                s = s + a.value;
+                window.location.href = s;
+            };
+        });
     </script>
 
 </body>

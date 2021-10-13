@@ -46,15 +46,17 @@ def reports(request,status='missing',historylen=historylen):
 def search(request,term=''):
     owner = interface.buildtree(historylen)
     
-    remove = [c for o in owner for c in o.coat if len(c.transaction) == 0]
+    #remove = [c for o in owner for c in o.coat if term.lower not in str(o.name).lower]
 
-    for r in remove:
-        [o.coat.remove(c) for o in owner for c in o.coat if c.id == r.id]
+    #for r in remove:
+    #    [o.coat.remove(c) for o in owner for c in o.coat if c.id == r.id]
+    def lower(a):
+        return str(a).lower()
 
-    result = [o for o in owner if len(o.coat) > 0]
+    result = [o for o in owner if term.lower() in o.name.lower()]
 
     context = {
-        'page_title': 'Fishers Laundry', 
+        'page_title': 'Fishers Laundry - ' + term, 
   	    'owner': result,
         'color' : '#359C37' 
     }
@@ -88,7 +90,11 @@ def deliveries(request,week=''):
                             type = 'received'
                         else:
                             type = 'dispatched'
-                        d.append([t.week,c.id,c.status,o.name,type,t.date.strftime('%d %B \'%y')])
+                        if int(t.week) == thisweek:
+                            style = "max-height: 9999px;"
+                        else:
+                            style = "max-height: null;"
+                        d.append([t.week,c.id,c.status,o.name,type,t.date.strftime('%d %B \'%y'),style])
                         d =  sorted(d, key=lambda x: x[4], reverse=True)
         if not d == []:
             deliveries.append(d)
