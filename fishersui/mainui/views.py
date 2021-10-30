@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from . import interface
 import datetime
@@ -8,6 +8,7 @@ historylen = 600
 # Create your views here.
 
 def index(request):
+    return redirect('/deliveries?coat=30371795')
     owner = interface.buildtree(historylen)
     
     remove = [c for o in owner for c in o.coat if len(c.transaction) == 0]
@@ -46,14 +47,22 @@ def reports(request,status='missing',historylen=historylen):
 def search(request,term=''):
     owner = interface.buildtree(historylen)
     
-    #remove = [c for o in owner for c in o.coat if term.lower not in str(o.name).lower]
+    result = [] 
 
-    #for r in remove:
-    #    [o.coat.remove(c) for o in owner for c in o.coat if c.id == r.id]
     def lower(a):
         return str(a).lower()
-
-    result = [o for o in owner if term.lower() in o.name.lower()]
+    for o in owner:
+        match = 0
+        currentowner = interface.Owner(o.id,o.name)
+        if term.lower() in o.name.lower():
+             match = 1
+             currentowner = o
+        for c in o.coat:
+            if term in c.id:
+                currentowner.coat.append(c)
+                match = 1
+        if match == 1:
+            result.append(currentowner)
 
     context = {
         'page_title': 'Fishers Laundry - ' + term, 
@@ -65,6 +74,8 @@ def search(request,term=''):
 def deliveries(request,week=''):
     owner = interface.buildtree(historylen)
     deliveries = []
+    highlightedcoat = request.GET.get('coat','')
+    extend = request.GET.get('extend','')
 
     thisweek = datetime.date.today()
     thisweek = int(thisweek.strftime('%V'))
@@ -90,11 +101,16 @@ def deliveries(request,week=''):
                             type = 'received'
                         else:
                             type = 'dispatched'
-                        if int(t.week) == thisweek:
+                        #expand the first card
+                        if extend == 'all':
                             style = "max-height: 9999px;"
                         else:
-                            style = "max-height: null;"
-                        d.append([t.week,c.id,c.status,o.name,type,t.date.strftime('%d %B \'%y'),style])
+                            style = "max-height: 0px;"
+                        if c.id == highlightedcoat:
+                            highlight = 'background-color:#406A6A;'
+                        else:
+                            highlight = ''
+                        d.append([t.week,c.id,c.status,o.name,type,t.date.strftime('%d %B \'%y'),style,highlight])
                         d =  sorted(d, key=lambda x: x[4], reverse=True)
         if not d == []:
             deliveries.append(d)
@@ -108,3 +124,7 @@ def deliveries(request,week=''):
         'color' : '#359C37' 
     }
     return render(request, 'fishers/deliveries.html', context)
+
+
+def svg(request):
+    return render(request, 'fishers/svg.html')

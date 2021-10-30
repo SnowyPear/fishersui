@@ -64,16 +64,20 @@
     <Content Include="mainui\coats.csv" />
     <Content Include="mainui\dispatched.csv" />
     <Content Include="mainui\employees.csv" />
+    <Content Include="mainui\static\css\default.css" />
     <Content Include="mainui\static\img\favicon.ico" />
     <Content Include="mainui\migrations\__pycache__\__init__.cpython-39.pyc" />
     <Content Include="mainui\received.csv" />
-    <Content Include="mainui\static\css\default.css" />
+    <Content Include="mainui\static\css\light.css" />
     <Content Include="mainui\static\img\fishers-logo.svg" />
     <Content Include="mainui\templates\fishers\deliveries.html" />
     <Content Include="mainui\templates\fishers\base.html" />
     <Content Include="mainui\templates\fishers\owners.html" />
     <Content Include="mainui\templates\fishers\status.html" />
     <Content Include="mainui\templates\404.html" />
+    <Content Include="mainui\templates\fishers\svg.html">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="mainui\__pycache__\admin.cpython-39.pyc" />
     <Content Include="mainui\__pycache__\apps.cpython-39.pyc" />
     <Content Include="mainui\__pycache__\interface.cpython-39.pyc" />

@@ -8,4 +8,5 @@ urlpatterns = [
     path('deliveries/', views.deliveries, name='deliveries'),
     path('deliveries/<week>/', views.deliveries, name='deliveries'),
     path('s/<term>/', views.search, name='search'),
+    path('svg/', views.svg, name='svg'),
 ] 

@@ -3,12 +3,14 @@
 {% block content %}
         {% for o in owner %}
         <div class="card" id="{{o.name}}">
-            <div class="coat-indicators">
-                {% for c in o.coat %}
-                <div class="circle circle-{{ c.status }}" onclick="expand('{{c.id}}')"></div>
-                {% endfor %}
-            </div>
-            <div class="owner-name"> {{ o.name }} </div>
+            <!--
+                <div class="coat-indicators">
+                    {% for c in o.coat %}
+                    <div class="circle circle-{{ c.status }}" onclick="expand('{{c.id}}')"></div>
+                    {% endfor %}
+                </div>
+            -->
+            <a href="/s/{{ o.name }}"><div class="owner-name"> {{ o.name }} </div></a>
             <div class="coat-wrapper" id="{{o.id}}">
             {% for c in o.coat %}
                 <div class="coat-item" onclick="expand('{{c.id}}')">

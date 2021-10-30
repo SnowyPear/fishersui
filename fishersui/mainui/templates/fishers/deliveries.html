@@ -2,9 +2,12 @@
 
 {% block content %}
         {% for d in deliveries %}
-        <div class="card" id="{{o.name}}">
-            <div class="owner-name" onclick="expand('{{d.0.0}}')"> 
-                Week {{ d.0.0 }} - {{d.0.5}} 
+        <div id="{{o.name}}" class="card">
+            <div class="card-title">
+                <span id="mi-{{d.0.0}}" class="material-icons md-36">expand_more</span>
+                <span class="owner-name" onclick="expand('{{d.0.0}}')"> 
+                    Week {{ d.0.0 }} - {{d.0.5}} 
+                </span>
             </div>
             <div class="coat-history" style="{{d.0.6}}" id="{{d.0.0}}">
                 <table>
@@ -16,12 +19,12 @@
                         </tr>
                     </thead>
                     {% for i in d %}
-                        <tr>
+                        <tr style="{{i.7}}">
                             <td class="coat-id coat-id-{{i.4}}">
-                                <a href="/#{{i.1}}">{{ i.1 }}</a>
+                                <a href="/s/{{i.1}}">{{ i.1 }}</a>
                             </td>
                             <td>
-                                {{ i.3 }}
+                                <a href="/s/{{i.3}}">{{ i.3 }}</a>
                             </td>
                             <td>
                                 {{ i.4 }}
