@@ -47,7 +47,7 @@ class Coat:
                     r = t.date
                     rw = t.week
 
-                if t.type == 1 or e == len(self.transaction) - 1:
+                if t.type == 1 or e == len(self.transaction) - 1 or t.type == self.transaction[e-1].type:
                     try:
                         w = int(rw) - int(dw)
                     except:

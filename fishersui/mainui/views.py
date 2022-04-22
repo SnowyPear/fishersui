@@ -8,7 +8,7 @@ historylen = 600
 # Create your views here.
 
 def index(request):
-    return redirect('/deliveries?coat=30371795')
+    #return redirect('/deliveries?coat=30371795')
     owner = interface.buildtree(historylen)
     
     remove = [c for o in owner for c in o.coat if len(c.transaction) == 0]
