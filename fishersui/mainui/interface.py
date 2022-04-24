@@ -19,7 +19,7 @@ class Coat:
         self.status = ''
         self.history = ''
 
-    def getstatus(self, offset=14):
+    def getstatus(self, offset=120):
         try:
             if self.transaction[-1].type == 1:
                 return 'in'
@@ -36,7 +36,7 @@ class Coat:
         d = ''
         dw = ''
         if len(self.transaction) == 0:
-            s = ''
+            s = '<table><tr><td> no transactions </td></tr></table>'
         else:
             s = '<table><thead><tr><th>Dispatched</th><th>Received</th><th>Weeks out</th></tr></thead>\n'
             for e, t in enumerate(self.transaction):
@@ -57,7 +57,7 @@ class Coat:
                     rw = ''
                     d = ''
                     dw = ''
-            s += '</table>'
+            s += '</table>\n' 
         return s
 
 
@@ -82,7 +82,7 @@ def dayoffset(o):
     return a - b
 
 
-def buildtree(historylen=60):
+def buildtree(historylen=9999):
     owner = []
     # build data structure from files
     with open('mainui/employees.csv', 'r') as file:

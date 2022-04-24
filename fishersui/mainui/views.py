@@ -4,7 +4,7 @@ from . import interface
 import datetime
 
 
-historylen = 600
+historylen = 9999
 # Create your views here.
 
 def index(request):
@@ -80,19 +80,10 @@ def deliveries(request,week=''):
     thisweek = datetime.date.today()
     thisweek = int(thisweek.strftime('%V'))
 
-    if week == 'last':
-        listmax = 1
-    else:
-        try:
-            if int(week) > 0:
-                listmax = 1
-                thisweek = int(week)
-        except:
-            listmax = 20
-
-
-    for r in range(listmax):
-        d = []
+    for r in range(52):
+        d = list() 
+        extend=False
+        style = "max-height: 0px;"
         for o in owner:
             for c in o.coat:
                 for t in c.transaction:
@@ -102,24 +93,35 @@ def deliveries(request,week=''):
                         else:
                             type = 'dispatched'
                         #expand the first card
-                        if extend == 'all':
+                        if len(deliveries) < 1 and highlightedcoat == '' :
                             style = "max-height: 9999px;"
-                        else:
-                            style = "max-height: 0px;"
                         if c.id == highlightedcoat:
                             highlight = 'background-color:#406A6A;'
+                            style = "max-height: 9999px;"
+                            extend=True
+                            print(highlightedcoat)
+                            print(c.id)
                         else:
                             highlight = ''
                         d.append([t.week,c.id,c.status,o.name,type,t.date.strftime('%d %B \'%y'),style,highlight])
                         d =  sorted(d, key=lambda x: x[4], reverse=True)
-        if not d == []:
-            deliveries.append(d)
-
-    result = [o for o in owner if len(o.coat) > 0]
-
+                        
+        try:
+            if not d[-1] == []:
+                print(d)
+                deliveries.append(d)
+        except:
+        	pass
+        	#print("error") 
+            
+        if extend == True:
+        	d[0][6]= "max-height: 9999px;"
+        
+    result = ""# [o for o in owner if len(o.coat) > 0]
+            
     context = {
         'page_title': 'Fishers Laundry', 
-  	    'owner': result,
+  	   'owner': result,
         'deliveries': deliveries,
         'color' : '#359C37' 
     }
