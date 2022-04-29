@@ -74,9 +74,9 @@ def search(request,term=''):
 def deliveries(request,week=''):
     owner = interface.buildtree(historylen)
     deliveries = []
+    debug = request.GET.get('debug','')
     highlightedcoat = request.GET.get('c','')
     highlightedemployee = request.GET.get('e','')
-    extend = request.GET.get('extend','')
 
     thisweek = datetime.date.today()
     thisweek = int(thisweek.strftime('%V'))
@@ -97,18 +97,18 @@ def deliveries(request,week=''):
                         highlight=''
                         if len(deliveries) < 1 and highlightedcoat == '' and highlightedemployee == '' :
                             style = "max-height: 9999px;"
-                        if c.id == highlightedcoat:
-                            highlight = 'background-color:#4C6623;'
-                            style = "max-height: 9999px;"
-                            extend=True
-                            print(highlightedcoat)
-                            print(c.id)
                         if o.id == highlightedemployee:
                             highlight = 'background-color:#406B69;'
                             style = "max-height: 9999px;"
                             extend=True
                             print(highlightedemployee)
                             print(o.id)
+                        if c.id == highlightedcoat:
+                            highlight = 'background-color:#4C6623;'
+                            style = "max-height: 9999px;"
+                            extend=True
+                            print(highlightedcoat)
+                            print(c.id)
 
                         d.append([t.week,c.id,c.status,o.name,type,t.date.strftime('%d %B \'%y'),style,highlight])
                         d =  sorted(d, key=lambda x: x[4], reverse=True)
@@ -129,7 +129,8 @@ def deliveries(request,week=''):
         'page_title': 'Fishers Laundry', 
   	   'owner': result,
         'deliveries': deliveries,
-        'color' : '#359C37' 
+        'color' : '#359C37', 
+        'debug' : debug
     }
     return render(request, 'fishers/deliveries.html', context)
 
