@@ -74,7 +74,8 @@ def search(request,term=''):
 def deliveries(request,week=''):
     owner = interface.buildtree(historylen)
     deliveries = []
-    highlightedcoat = request.GET.get('coat','')
+    highlightedcoat = request.GET.get('c','')
+    highlightedemployee = request.GET.get('e','')
     extend = request.GET.get('extend','')
 
     thisweek = datetime.date.today()
@@ -93,32 +94,37 @@ def deliveries(request,week=''):
                         else:
                             type = 'dispatched'
                         #expand the first card
-                        if len(deliveries) < 1 and highlightedcoat == '' :
+                        highlight=''
+                        if len(deliveries) < 1 and highlightedcoat == '' and highlightedemployee == '' :
                             style = "max-height: 9999px;"
                         if c.id == highlightedcoat:
-                            highlight = 'background-color:#406A6A;'
+                            highlight = 'background-color:#4C6623;'
                             style = "max-height: 9999px;"
                             extend=True
                             print(highlightedcoat)
                             print(c.id)
-                        else:
-                            highlight = ''
+                        if o.id == highlightedemployee:
+                            highlight = 'background-color:#406B69;'
+                            style = "max-height: 9999px;"
+                            extend=True
+                            print(highlightedemployee)
+                            print(o.id)
+
                         d.append([t.week,c.id,c.status,o.name,type,t.date.strftime('%d %B \'%y'),style,highlight])
                         d =  sorted(d, key=lambda x: x[4], reverse=True)
-                        
         try:
             if not d[-1] == []:
                 print(d)
                 deliveries.append(d)
         except:
         	pass
-        	#print("error") 
-            
+        	#print("error")
+
         if extend == True:
         	d[0][6]= "max-height: 9999px;"
-        
+
     result = ""# [o for o in owner if len(o.coat) > 0]
-            
+
     context = {
         'page_title': 'Fishers Laundry', 
   	   'owner': result,

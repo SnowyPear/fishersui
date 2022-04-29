@@ -6,7 +6,7 @@ class Transaction:
     def __init__(self, date, type):
         self.date = date
         self.type = type
-        self.week = date.strftime('%V')
+        self.week = date.strftime('%V') 
 
     def __lt__(self, other):
         return self.date < other.date
