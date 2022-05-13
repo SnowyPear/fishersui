@@ -114,7 +114,7 @@ def deliveries(request,week=''):
                         d =  sorted(d, key=lambda x: x[4], reverse=True)
         try:
             if not d[-1] == []:
-                print(d)
+                #print(d)
                 deliveries.append(d)
         except:
         	pass
@@ -137,3 +137,4 @@ def deliveries(request,week=''):
 
 def svg(request):
     return render(request, 'fishers/svg.html')
+
