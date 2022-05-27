@@ -80,7 +80,6 @@ def deliveries(request,week=''):
 
     thisweek = datetime.date.today()
     thisweek = int(thisweek.strftime('%V'))
-
     for r in range(52):
         d = list() 
         extend=False
